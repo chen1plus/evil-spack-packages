@@ -92,12 +92,8 @@ class Cgal(CMakePackage):
     # depends_on('opengl', when='+imageio') # not yet in Spack
     depends_on("zlib-api")
 
-    # Optional to build CGAL_Qt5 (demos)
-    # depends_on('opengl', when='+demos')   # not yet in Spack
-    depends_on("qt@5:", when="@:5 +demos")
-
-    # Demos are now based on qt6, but at the moment qt6 is not in spack
-    # depends_on("qt@6:", when="@6: +demos")
+    # Optional to build CGAL_Qt5
+    depends_on("qt@5:", when="@:5")
 
     # Optional Third Party Libraries
     depends_on("eigen", when="+eigen")
@@ -147,7 +143,6 @@ class Cgal(CMakePackage):
     def setup_build_environment(self, env: EnvironmentModifications) -> None:
         spec = self.spec
 
-        env.set("BOOST_INCLUDEDIR", spec["boost"].headers.directories[0])
         env.set("BOOST_LIBRARYDIR", spec["boost"].libs.directories[0])
 
         if spec.satisfies("+eigen"):
